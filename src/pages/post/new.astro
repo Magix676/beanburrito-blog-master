@@ -1,0 +1,20 @@
+---
+import Layout from "@layouts/Layout.astro";
+import PostEditing from "@components/PostEditing.svelte";
+
+const { user } = Astro.locals;
+
+if (!user.canPost)
+  return new Response(null, { status: 403 });
+
+---
+
+<Layout title={`BB Blog - New Post`}>
+  <form style="width: 760px; text-align: left;" method="POST" action="/api/post/new">
+    <label for="title">Title</label>
+    <input type="text" name="title" id="title" />
+    <br>
+    <PostEditing client:load />
+    <button type="submit">Create</button>
+  </form>
+</Layout>

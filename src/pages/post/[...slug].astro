@@ -1,0 +1,106 @@
+---
+import { marked } from "marked";
+import Layout from "@layouts/Layout.astro";
+import Comments from "@components/Comments.astro";
+import { getPost } from "@utils/prisma";
+import { formatDate, getFirstImage } from "@utils/helpers";
+import { AstroSeo } from '@astrolib/seo';
+
+const { slug } = Astro.params;
+const { user } = Astro.locals;
+if (isNaN(Number(slug))) return new Response(null, { status: 404 });
+
+const post = await getPost(Number(slug));
+if (!post) return new Response(null, { status: 404 });
+
+const content = marked.parse(post?.content!);
+
+const image = await getFirstImage(content);
+---
+
+<style>
+  #author {
+    margin: 10px 0;
+  }
+
+  #author * {
+    display: inline;
+    vertical-align: middle;
+  }
+
+  #title {
+    margin: 0;
+  }
+
+  #date {
+    margin: 0;
+  }
+</style>
+
+<Layout title={`BB Blog - ${post?.title}`}>
+
+  <AstroSeo 
+    title={post?.title}
+    description={post?.content}
+    openGraph={{
+      title: post?.title,
+      description: post?.content,
+      url: `https://blog.beanburrito.tech/post/${post?.id}`,
+      type: 'article',
+      images: image ? [
+        {
+          url: image,
+          alt: post?.title
+        }
+      ] : undefined,
+      article: {
+        publishedTime: post?.createdAt.toISOString(),
+        authors: [post?.author.name]
+      }
+    }}
+    twitter={{
+      cardType: 'summary_large_image',
+      site: '@beanburritotech'
+    }}
+  />
+
+  <div style="width: 760px; text-align: left;">
+    <a href="/">&lt;-- Back</a>
+    {
+      user && user.id === post?.authorId && (
+        <>
+           | <a href={`/post/edit/${post?.id}`}>Edit</a> | <a id="delete" href="#">Delete</a>
+        </>
+      )
+    }
+
+    <font face="verdana" size="4">
+      <h1 id="title">{post?.title}</h1>
+    </font>
+
+    <h3 id="date">{formatDate(post?.createdAt!)}</h3>
+    <div id="author">
+      <img
+        src={`https://cdn.discordapp.com/avatars/${post?.author.discordId}/${post?.author.profile}?size=32`}
+        alt="Author PFP"
+        width="30"
+        height="30"
+      />
+      <p style="margin-left: 5px">{post?.author.name}</p>
+    </div>
+
+    <hr style="border: gray 1px dashed;">
+    <div set:html={content} />
+    <hr style="border: gray 1px dashed;">
+
+    <Comments postId={post?.id} />
+  </div>
+</Layout>
+
+<script define:vars={{ post }}>
+  document.getElementById("delete").addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to delete this post?")) return;
+
+    window.location.href = `/api/post/delete/${post.id}`;
+  });
+</script>

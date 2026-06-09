@@ -1,0 +1,82 @@
+---
+import { getAllPosts } from "@utils/prisma";
+import Layout from "@layouts/Layout.astro";
+import { formatDate } from "@utils/helpers";
+
+const { user } = Astro.locals;
+
+const posts = await getAllPosts();
+---
+
+<style>
+  #post {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: gray 1px solid;
+  }
+
+  #post a {
+    text-decoration: none;
+  }
+
+  #post a:hover {
+    text-decoration: underline;
+  }
+
+  #post * {
+    margin: 0;
+  }
+
+  #header {
+    border: 1px solid #99b9e3;
+  }
+</style>
+
+<Layout title="BB Blog">
+  <div style="width: 760px; text-align: left;">
+    {user && user.canPost && (
+        <a href="/post/new">New Post</a>
+    )}
+    
+    <table
+      cellpadding="1"
+      cellspacing="0"
+      border="0"
+      width="760"
+      bgcolor="#d2e4fc"
+      id="header"
+    >
+      <tbody>
+        <tr style="text-align: center;">
+          <td>
+            <font face="verdana" size="3"><b>Bean Burrito Blog</b></font>
+          </td>
+        </tr>
+        <tr style="text-align: center;">
+          <td>
+            <font face="arial" size="-1">
+              For random articles that the Bean Burrito Team wants to talk
+              about!
+            </font>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    {
+      posts.map((post) => (
+        // Just a placeholder for now
+        <div id="post">
+          <font face="verdana">
+            <a href={`/post/${post.id}`}>
+              <h2 id="title">{post.title}</h2>
+            </a>
+          </font>
+          <p>
+            <b>{post.author.name}</b> - {formatDate(post.createdAt)}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</Layout>

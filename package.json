@@ -1,0 +1,29 @@
+{
+  "name": "blog",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.1",
+    "@astrojs/node": "^8.3.2",
+    "@astrojs/svelte": "^5.7.0",
+    "@astrolib/seo": "^1.0.0-beta.5",
+    "@prisma/client": "^5.17.0",
+    "astro": "^4.13.1",
+    "jsonwebtoken": "^9.0.2",
+    "marked": "^13.0.3",
+    "rate-limiter-flexible": "^5.0.3",
+    "svelte": "^4.2.18",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "prisma": "^5.17.0"
+  }
+}

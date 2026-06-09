@@ -1,0 +1,89 @@
+---
+const {user} = Astro.locals;
+---
+
+<style>
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+<table cellpadding="0" cellspacing="0" border="0" width="760">
+  <tbody
+    ><tr>
+      <td valign="top" style="width: 33px;">
+        {user? <a href="/api/auth/logout">Logout</a> : <a href="/api/auth/login">Login</a>}
+      </td>
+      <td valign="top" align="center" style="width: 64px;">
+        <a href="http://beanburrito.tech/">
+            <img
+            src="/buttons/BB.png"
+            width="36"
+            height="36"/>
+            <br />
+            <nobr><font face="verdana" size="-2" color="#000000">Home</font></nobr>
+        </a>
+      </td>
+      <td valign="top" align="center" style="width: 64px;">
+        <a href="http://archive.beanburrito.tech/">
+            <img
+            src="/buttons/home.png"
+            width="36"
+            height="36"/>
+            <br />
+            <nobr><font face="verdana" size="-2" color="#000000">Archive</font></nobr>
+        </a>
+      </td>
+      <td valign="top" align="center" style="width: 64px;">
+        <a href="http://africa2.beanburrito.tech/">
+            <img
+            src="/buttons/africa2.png"
+            width="36"
+            height="36"/>
+            <br />
+            <nobr><font face="verdana" size="-2" color="#000000">Africa2</font></nobr>
+          </a>
+      </td>
+      <td valign="top" align="center" style="width: 232px;">
+        <img src="/bburito.png" alt="Bean Burrito" width="232" height="44" />
+        </td>
+      <td valign="top" align="center" style="width: 64px;">
+        <a href="http://videos.beanburrito.tech">
+            <img
+            src="/buttons/ag.png"
+            width="36"
+            height="36"
+            />
+            <br />
+            <nobr><font face="verdana" size="-2" color="#000000">Randomizer</font></nobr>
+        </a>
+    </td>
+      <td valign="top" align="center" style="width: 64px;">
+        <a href="http://tube.beanburrito.tech/">
+            <img
+            src="/buttons/tube.png"
+            width="36"
+            height="36"
+            alt=""/>
+            <br />
+            <nobr><font face="verdana" size="-2" color="#000000">BurritoTube</font></nobr>
+        </a>
+      </td>
+      <td valign="top" align="center" style="width: 64px;">
+        <a href="http://blog.beanburrito.tech/">
+            <img
+            src="/buttons/chat.png"
+            width="36"
+            height="36"/>
+            <br />
+            <nobr><font face="verdana" size="-2" color="#000000">Blog</font></nobr>
+        </a>
+      </td>
+      <td valign="top" style="width: 33px;">&nbsp;</td>
+    </tr>
+  </tbody>
+</table>

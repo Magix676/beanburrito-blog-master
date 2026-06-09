@@ -1,0 +1,92 @@
+---
+import Navbar from "../components/Navbar.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <link rel="shortcut icon" href="/favicon.png" type="image/png">
+
+
+    <style>
+      a {
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .ex {
+        min-width: 760px;
+        max-width: 760px;
+        width: 47.5em;
+      }
+
+      #yuno {
+        width: 38px;
+        min-height: 48px;
+        background-image: url("/yuno.jpg");
+        cursor: pointer;
+      }
+
+      #yuno:active {
+        background-image: url("/yuno2.jpg");
+      }
+    </style>
+  </head>
+  <body>
+    <font face="arial" size="2">
+      <center>
+        <Navbar />
+        <br />
+        <slot />
+        <table
+          cellpadding="0"
+          cellspacing="0"
+          border="0"
+          width="760"
+          class="ex"
+        >
+          <tbody
+            ><tr>
+              <td valign="top" align="left" style="width: 90%;"
+                ><font face="arial" size="-1" color="#666666">
+                  <a href="http://beanburrito.tech/information">Information</a> |
+                  <a href="https://discord.gg/mP77HvBZXw">Discord</a> |
+                  <a href="https://x.com/beanburritotech">Twitter</a>
+                  <br />
+                  Copyright © 2024 Bean Burrito Technologies. All rights reserved.
+                </font></td
+              >
+              <td valign="top" align="right" style="width: 10%">
+                <div id="yuno"></div>
+              </td>
+            </tr></tbody
+          >
+        </table>
+      </center>
+    </font>
+  </body>
+</html>
+
+<script>
+  // document.getElementById("yuno")?.addEventListener("mousedown", () => {
+  //   console.log("clicked");
+  // });
+
+  document.getElementById("yuno")?.addEventListener("mouseup", () => {
+    const sounds = ["/sounds/yuno.mp3", "/sounds/yuno2.mp3"];
+    const sound = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+    sound.play();
+  });
+</script>

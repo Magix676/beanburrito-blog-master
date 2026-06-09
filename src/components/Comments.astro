@@ -1,0 +1,60 @@
+---
+import { formatDate } from "@utils/helpers";
+import { getComments } from "@utils/prisma";
+const { postId } = Astro.props;
+const { user } = Astro.locals;
+
+const comments = await getComments(postId);
+---
+
+<style>
+  #author {
+    margin: 10px 0;
+  }
+
+  #author * {
+    display: inline;
+    vertical-align: middle;
+  }
+
+  #comment {
+    margin: 10px 0;
+  }
+</style>
+
+<font face="verdana" size="-1" style="margin-bottom: 10px;">
+  <h3 id="title" style="margin: 0;">Comments:</h3>
+  {
+    user ? (
+      <form action="/api/comments/new" method="POST">
+        <input type="hidden" name="postId" value={postId} />
+        <textarea name="content" placeholder="Write a comment...
+(500 character limit)" required rows="5" cols="50" />
+        <button type="submit">Submit</button>
+      </form>
+    ) : (
+      <p style="margin-top: 10px;">You must be logged in to comment.</p>
+    )
+  }
+  <div id="comments">
+    {
+      comments.map((comment) => (
+        <div id="comment">
+          <div id="author">
+            <img
+              src={`https://cdn.discordapp.com/avatars/${comment.author.discordId}/${comment.author.profile}?size=32`}
+              alt="Author PFP"
+              width="30"
+              height="30"
+            />
+            <font face="verdana" size="-1" id="authorText">
+              <b style="margin-left: 5px">{comment.author.name}</b> <p>@{comment.author.username}</p>
+              <i>{formatDate(comment.createdAt)}</i>
+            </font>
+          </div>
+          <p>{comment.content} { (user !== null && (user.id == comment.authorId || user.canPost)) && <a href={`/api/comments/delete?id=${comment.id}`}>Delete</a> }</p>
+        </div>
+      ))
+    }
+  </div>
+</font>
